@@ -7,10 +7,23 @@ const app = express();
 
 require("dotenv").config();
 require("./config/database");
+require("./config/passport");
 
 app.use(logger("dev"));
+var session = require("express-session");
 app.use(express.json());
+var passport = require("passport");
 
+//Google OAuth
+app.use(
+  session({
+    secret: "boilerplate",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 // Configure both serve-favicon & static middlewares
 // to serve from the production 'build' folder
 app.use(favicon(path.join(__dirname, "build", "favicon.ico")));
