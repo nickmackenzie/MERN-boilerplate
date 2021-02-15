@@ -1,24 +1,42 @@
 import {React, Component} from 'react';
 import 'antd/dist/antd.css';
+import './App.css'
+
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+
 import axios from 'axios'
 import snipUtil from "./utilities/snippet";
 import {Input, Form, Select} from 'antd';
-import CodeBox from './components/CodeBox/CodeBox';
+import { Card, Col, Row,Space } from 'antd';
+import { Layout, Menu } from 'antd';
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  UserOutlined,
+  VideoCameraOutlined,
+  UploadOutlined,
+} from '@ant-design/icons';
+
+const { Header, Sider, Content, Footer } = Layout;
+
+
+
 const { Option } = Select;
 const { TextArea } = Input;
-
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       snippet:"",
-      collection:[]
+      collection:[],
+      collapsed: false,
     };
    
   }
+
+  
   snippetIndex = async (e) => {
     axios.get('http://localhost:3001/snippets/index')
     .then((response) => {
@@ -37,7 +55,11 @@ class App extends Component {
   
     )})
    }
-      
+        toggle = () => {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
+  };
 
 componentDidMount() {
   this.snippetIndex()
@@ -49,6 +71,7 @@ componentDidMount() {
       newSnips:[]
     });
   };
+
 
   handleSubmit = async (e) => {
     e.preventDefault();
@@ -94,9 +117,46 @@ console.log("cl",id)
   
   };
   render() {
+
+    const layout = {
+      labelCol: { span: 8 },
+      wrapperCol: { span: 16 },
+    };
     return (
-      <div className="App">
-      <form onSubmit={this.handleSubmit}>
+
+      <Layout>
+      <Sider
+        breakpoint="lg"
+        collapsedWidth="0"
+        onBreakpoint={broken => {
+          console.log(broken);
+        }}
+        onCollapse={(collapsed, type) => {
+          console.log(collapsed, type);
+        }}
+      >
+        <div className="logo" />
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+          <Menu.Item key="1" icon={<UserOutlined />}>
+            nav 1
+          </Menu.Item>
+          <Menu.Item key="2" icon={<VideoCameraOutlined />}>
+            nav 2
+          </Menu.Item>
+          <Menu.Item key="3" icon={<UploadOutlined />}>
+            nav 3
+          </Menu.Item>
+          <Menu.Item key="4" icon={<UserOutlined />}>
+            nav 4
+          </Menu.Item>
+        </Menu>
+      </Sider>
+      <Layout>
+        <Header className="site-layout-sub-header-background" style={{ padding: 0 }} />
+        <Content style={{ margin: '24px 16px 0' }}>
+          <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+          <div className="App">
+      <Form       {...layout} onSubmit={this.handleSubmit}>
 
       <Form.Item name="name" label="Snippet Name"  onChange={this.handleChange} >
         <Input />
@@ -116,16 +176,38 @@ console.log("cl",id)
           <Option value="phthon">python</Option>
         </Select>
       </Form.Item>
+      <TextArea
+          
+          onChange={this.onChange}
+          placeholder="Controlled autosize"
+          autoSize={{ minRows: 3, maxRows: 5 }}
+        />
       <TextArea  label='snippet'    id='snippet'  name="snippet"  onChange={this.handleChange} value={this.state.snippet} />
       <button>sub</button>
-      </form>
-      {   this.state.collection.map((item, index) => <div> <SyntaxHighlighter language="javascript" style={docco}>
-    {item.snippet }
-    </SyntaxHighlighter> <button                   data-id={item._id} id={index} onClick={this.deleteData}>x</button></div>  )
+      </Form>
+
+<Row>
+
+      {   this.state.collection.map((item, index) =><Col span={8}> <Card className="card" title="Card title" bordered={true}><SyntaxHighlighter language="javascript" style={docco}>
+    {item.snippet }        
+    </SyntaxHighlighter> <button data-id={item._id} id={index} onClick={this.deleteData}>x</button>  </Card> </Col>)
 }
+</Row>
       </div>
-    );
+          </div>
+        </Content>
+        <Footer style={{ textAlign: 'center' }}>Nick Design ©2018 Created by Nick</Footer>
+      </Layout>
+    </Layout>
+
+    )
   }
 }
 
 export default App;
+
+
+
+           
+
+          

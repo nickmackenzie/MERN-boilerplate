@@ -56,3 +56,8 @@
   background: grey;
   margin-bottom: 30px;
 }
+
+
+.card {
+  margin:10px !important;
+}
