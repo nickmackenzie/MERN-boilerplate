@@ -1,5 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
+const cors = require('cors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -22,7 +23,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({
@@ -42,6 +43,11 @@ app.use('/', indexRouter);
 app.use('/snippets', snippetRouter);
 app.use('/edit', editRouter);
 app.use('/search', searchRouter)
+app.use('/login', (req, res) => {
+  res.send({
+    token: 'test123'
+  });
+});
 app.use(bodyParser.json())
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -59,4 +65,8 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 const port = process.env.PORT || 3001;
+
+app.listen(port, function () {
+  console.log(`Express app running on port ${port}`);
+});
 module.exports = app;

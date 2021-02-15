@@ -1,0 +1,82 @@
+<div id="side-menu" class="menu-wrap">
+
+    <% if (user) { %>
+
+    <div class="btn-wrap">
+        <div class="buttons">
+            <button class="button is-warning" id="modal-btn">
+                <strong>New Snippet</strong>
+            </button>
+        </div>
+
+
+    </div>
+    <aside class="menu">
+        <div class="search-box">
+            <form action="/search" method="GET">
+                <p class="control has-icons-left">
+                    <input id="search" class="input" type="text" name="search"
+                        placeholder="Search">
+                    <span class="icon is-left">
+                        <i class="fas fa-search fa-2x" aria-hidden="true"></i>
+                    </span>
+                </p>
+            </form>
+        </div>
+        <p class="menu-label">
+            <bold><a href="/snippets">Show All</a></bold>
+        </p>
+        <p class="menu-label">
+            <bold>Languages:</bold>
+        </p>
+        <ul class="menu-list">
+            <% let array1 = [] %>
+            <% menu.forEach(function(t) { %>
+            <% array1.push(t.language) %>
+            <% }) %>
+            <% let array2 = [...new Set(array1)] %>
+            <% array2.forEach(function(m) { %>
+            <li> <a id="link" href="/snippets/<%= m %>"><img id="side-icon"
+                        class="icon" src="/images/<%= m %>.svg" alt="">
+                    <%= m %></a>
+            </li>
+
+            <% }) %>
+
+
+        </ul>
+
+
+        <p class="menu-label">Tags: </p>
+        <div class="tags are-normal ">
+            <% let allTags = [] %>
+
+            <% menu.forEach(function(t) { %>
+
+            <% t.categories.forEach(function(i) { %>
+            <% allTags.push(i) %>
+
+            <% }) %>
+            <% }) %>
+            <% let uniqueTags = [...new Set(allTags)] %>
+            <% console.log(uniqueTags) %>
+            <% console.log("unique",uniqueTags) %>
+            <% uniqueTags.forEach(function(u) { %>
+            <span class="tag is-black">
+                <a href="/search/<%= u %>">
+                    <%= u %></a></span>
+
+            <% }) %>
+        </div>
+
+        <ul class="menu-list">
+            <div class="log-out">
+                <a class="button is-danger" href="/logout">Log
+                    Out</a>
+            </div>
+            <% } else { %>
+            <a class="button is-primary" href="/auth/google"><strong>Login
+                    with
+                    Google</strong></a>
+            <% } %>
+</div>

@@ -1,0 +1,32 @@
+<%- include('../partials/header') %>
+<%- include('../partials/nav') %>
+<div class="parent">
+    <div class="section yellow">
+        <%- include('../partials/panel') %>
+    </div>
+    <div class="grid">
+
+    </div>
+</div>
+<div id="modal-view " class="modal is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Edit a Snippet</p>
+            <a href="/snippets/<%= edit.language %>"><button id="edit-close"
+                    class="delete" aria-label="close"></button></a>
+        </header>
+        <section id="modal-content" class="modal-card-body">
+            <form action="/edit/<%= edit.id %>" method="POST">
+                <label for="name">Name of snippet:</label><br>
+                <input name="name" type="text" value="<%= edit.name %>"><br>
+                <label for="snippet">Code:</label><br>
+                <textarea rows="15" cols="30"
+                    name="snippet"><%= edit.snippet %></textarea><br>
+        </section>
+        <footer class="modal-card-foot">
+            <input class="button is-success" type="submit">
+        </footer>
+        </form>
+    </div>
+</div>

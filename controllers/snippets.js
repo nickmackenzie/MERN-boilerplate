@@ -1,26 +1,19 @@
 let Snippets = require('../models/snippets')
 
 function index(req, res) {
-    let userId = req.user.googleId
-    Snippets.find({
-        google: userId
-    }, function (err, menu) {
+ 
+console.log(req)
         Snippets.find({
-            google: userId
+            
         }, function (err, snip) {
             if (err) {
                 res.redirect("index")
             }
-            res.render('snippets/index', {
-                snip,
-                user: req.user,
-                name: req.query.name,
-                googleId: req.query.googleId,
-                menu: menu
+           console.log(snip)
+           res.send(snip)
             })
-        })
-    })
-}
+        }
+    
 
 function languageIndex(req, res) {
     let x = req.params.language
@@ -44,21 +37,16 @@ function languageIndex(req, res) {
 }
 
 function addSnip(req, res) {
-    for (let key in req.body) {
-        if (req.body[key] === '') delete req.body[key]
-    };
-    if (req.body.categories) req.body.categories = req.body.categories.split(" ")
+console.log(req.body)
     const snip = new Snippets({
-        google: req.user.googleId,
-        snippet: req.body.snippet,
-        name: req.body.name,
-        language: req.body.language,
-        categories: req.body.categories
+        snippet: req.body.snippet
+     
     })
+ 
     snip.save(function (err) {
-        if (err) return res.render('snippets/index')
-        res.redirect('/snippets')
+        if (err) console.log(err)
     })
+    res.send(req.body)
 }
 
 function deleteSnip(req, res) {

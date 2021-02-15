@@ -1,0 +1,26 @@
+<div id="modal-view-editor" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Enter a new snippet</p>
+            <button id="close-btn" class="delete" aria-label="close"></button>
+        </header>
+        <section id="modal-content" class="modal-card-body">
+            <form action="/snippets" method="POST">
+
+
+
+                <label for="name" value="">Name of
+                    snippet:</label><br>
+                <input name="name" type="text"><br>
+                <label for="snippet">Code:</label><br>
+                <textarea rows="4" cols="10" name="snippet"></textarea><br>
+
+
+        </section>
+        <footer class="modal-card-foot">
+            <input class="button is-success" type="submit">
+        </footer>
+        </form>
+    </div>
+</div>
