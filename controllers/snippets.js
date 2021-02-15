@@ -50,17 +50,15 @@ console.log(req.body)
 }
 
 function deleteSnip(req, res) {
-    if (language = null) return res.redirect('/snippets/')
+console.log("dekkkke",req.body.id)
     Snippets.findOne({
-        _id: req.params.id
-    }, function (err, lan) {
-        res.redirect('/snippets/')
+        _id: req.body.id
     })
     Snippets.deleteOne({
-        _id: req.params.id
+          _id: req.body.id
     }, (error) => {
         if (error) {
-            res.redirect('/snippets/')
+            console.log(err)
         }
     })
 }
