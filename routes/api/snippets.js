@@ -5,7 +5,7 @@ const Snippet = require('../../models/snippets')
 
 router.post("/add", snipCntrl.addSnip);
 router.get('/index', snipCntrl.index);
-router.delete('/:id', snipCntrl.deleteSnip)
+router.post('/del', snipCntrl.deleteSnip)
 router.get('/:language', snipCntrl.languageIndex)
 
 module.exports = router;
